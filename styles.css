@@ -1,0 +1,543 @@
+@charset "UTF-8";
+/* Hy-Vee UTM Generator — styles */
+
+:root {
+    --red: #d82117;
+    --red-dark: #b71c13;
+    --ink: #1d1d1f;
+    --muted: #515154;
+    --line: #d2d2d7;
+    --fill: #f5f5f7;
+    --surface: #ffffff;
+    --bg: #f5f5f7;
+    --error: #d70015;
+    --error-bg: #fdeceb;
+
+    --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+        "SF Pro", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-ui);
+    line-height: 1.47;
+    color: var(--ink);
+    background-color: var(--bg);
+    padding: 56px 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--surface);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Hy-Vee employee celebration — hidden until the user copies a URL */
+.mario-scene {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 34px;
+    pointer-events: none;
+    z-index: 50;
+    overflow: hidden;
+    display: none;
+}
+
+.mario-scene.is-celebrating {
+    display: block;
+}
+
+.mario-cart {
+    position: absolute;
+    bottom: 0;
+    left: -64px;
+    display: flex;
+    align-items: flex-end;
+    gap: 1px;
+}
+
+.mario-scene.is-celebrating .mario-cart {
+    animation: mario-cross 3.8s linear forwards;
+}
+
+.mario-cart svg {
+    display: block;
+    shape-rendering: crispEdges;
+}
+
+.mario-cart::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    bottom: 0;
+    height: 3px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.14), transparent 70%);
+}
+
+.mario-guy {
+    animation: mario-step 0.4s steps(2) infinite alternate;
+}
+
+@keyframes mario-step {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-2px); }
+}
+
+@keyframes mario-cross {
+    from { left: -64px; }
+    to   { left: 100%; }
+}
+
+/* Wave — click the employee mid-lap */
+.mario-scene.is-celebrating .mario-cart {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.wave-arm {
+    opacity: 0;
+    transform-box: view-box;
+    transform-origin: 9px 6px;
+}
+
+.mario-guy.waving .wave-arm {
+    opacity: 1;
+    animation: wave 0.32s ease-in-out 3 alternate;
+}
+
+@keyframes wave {
+    from { transform: rotate(-6deg); }
+    to   { transform: rotate(22deg); }
+}
+
+/* "A Helpful Smile in Every Aisle" — logo-tap waterfall */
+.smile-splash {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.smile-word {
+    position: absolute;
+    top: -14vh;
+    font-family: var(--font-ui);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--red);
+    white-space: nowrap;
+    animation: smile-fall linear forwards;
+}
+
+@keyframes smile-fall {
+    0%   { transform: translateY(0) rotate(-3deg); opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translateY(122vh) rotate(3deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mario-scene { display: none !important; }
+}
+
+/* ---------- Header ---------- */
+.app-header {
+    padding: 32px 36px 26px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.brand-logo {
+    height: 30px;
+    width: auto;
+    display: block;
+}
+
+.brand-sub {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    padding-left: 13px;
+    border-left: 1px solid var(--line);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.021em;
+    margin-bottom: 6px;
+}
+
+.app-header p {
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: -0.01em;
+    max-width: 54ch;
+}
+
+/* ---------- Form ---------- */
+.form-body {
+    padding: 6px 36px 10px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+label .req {
+    color: var(--red);
+    margin-left: 2px;
+}
+
+label .opt {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.hint {
+    display: block;
+    margin-top: 7px;
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    background-color: var(--surface);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input::placeholder {
+    color: #aeaeb2;
+}
+
+select:focus,
+input:focus {
+    outline: none;
+    border-color: var(--red);
+    box-shadow: 0 0 0 4px rgba(216, 33, 23, 0.12);
+}
+
+input.is-invalid,
+input.is-invalid:focus {
+    border-color: var(--error);
+    box-shadow: 0 0 0 4px rgba(215, 0, 21, 0.14);
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 38px;
+    cursor: pointer;
+}
+
+select:disabled {
+    background-color: var(--fill);
+    color: #aeaeb2;
+    cursor: not-allowed;
+}
+
+/* ---------- Result ---------- */
+.result {
+    margin: 0;
+    padding: 26px 36px 34px;
+    border-top: 1px solid var(--line);
+}
+
+.result-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.result-head h3 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+/* Parameter breakdown — Apple-style grouped list */
+.param-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+    display: none;
+}
+
+.param-table.has-rows {
+    display: table;
+}
+
+.param-table th,
+.param-table td {
+    text-align: left;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    vertical-align: top;
+    letter-spacing: -0.01em;
+}
+
+.param-table tr:last-child th,
+.param-table tr:last-child td {
+    border-bottom: none;
+}
+
+.param-table th {
+    width: 34%;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.param-table td {
+    font-weight: 400;
+    color: var(--ink);
+    word-break: break-all;
+}
+
+.url-box {
+    padding: 15px 16px;
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    word-break: break-all;
+    font-family: var(--font-ui);
+    font-size: 14.5px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.55;
+    color: var(--ink);
+    min-height: 50px;
+}
+
+.url-box.is-empty {
+    color: var(--muted);
+    font-weight: 400;
+    font-family: var(--font-ui);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+}
+
+.url-box.is-error {
+    color: var(--error);
+    background-color: var(--error-bg);
+    font-family: var(--font-ui);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+}
+
+/* ---------- Buttons ---------- */
+button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    background-color: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 980px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+    background-color: var(--red-dark);
+}
+
+button:active {
+    opacity: 0.85;
+}
+
+button:disabled {
+    background-color: #e5e5ea;
+    color: #aeaeb2;
+    cursor: not-allowed;
+}
+
+/* Copy button — checkmark morph + pop */
+.copy-controls {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.copy-hint {
+    order: -1;
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+#copyButton:not(:disabled) ~ .copy-hint {
+    opacity: 1;
+}
+
+.copy-hint kbd {
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 1px 6px;
+    margin-left: 1px;
+}
+
+.btn-icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.icon-check {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.icon-check polyline {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+}
+
+#copyButton.copied .icon-copy {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+#copyButton.copied .icon-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#copyButton.copied .icon-check polyline {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.3s ease 0.08s;
+}
+
+#copyButton.copied {
+    background-color: var(--ink);
+    animation: copy-pop 0.28s ease;
+}
+
+@keyframes copy-pop {
+    0% { transform: scale(1); }
+    45% { transform: scale(0.93); }
+    100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-icon .icon,
+    .icon-check polyline,
+    #copyButton.copied .icon-check polyline {
+        transition: none;
+    }
+    #copyButton.copied {
+        animation: none;
+    }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+    body {
+        padding: 0;
+    }
+    .container {
+        border-radius: 0;
+        min-height: 100vh;
+        box-shadow: none;
+    }
+    .app-header {
+        padding: 26px 22px 20px;
+    }
+    .form-body {
+        padding: 4px 22px 6px;
+    }
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .result {
+        padding: 22px 22px 22px;
+    }
+}
+
+.hidden {
+    display: none;
+}

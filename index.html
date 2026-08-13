@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Hy-Vee UTM Generator</title>
+    <link rel="icon" type="image/png" href="assets/hyvee-h-red.png">
+    <link rel="stylesheet" href="styles.css?v=9">
+</head>
+<body>
+    <div class="container">
+        <div class="mario-scene" id="marioScene" aria-hidden="true">
+            <div class="mario-cart">
+                <svg class="mario-guy" width="24" height="32" viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
+                    <!-- hair -->
+                    <rect x="3" y="1" width="6" height="2" fill="#3a2a1a"/>
+                    <rect x="3" y="3" width="1" height="2" fill="#3a2a1a"/>
+                    <!-- face + hand -->
+                    <rect x="4" y="3" width="5" height="3" fill="#f6c77e"/>
+                    <rect x="9" y="7" width="2" height="1" fill="#f6c77e"/>
+                    <!-- eye -->
+                    <rect x="6" y="4" width="1" height="1" fill="#222222"/>
+                    <!-- red shirt + sleeve -->
+                    <rect x="3" y="6" width="6" height="3" fill="#d82117"/>
+                    <rect x="9" y="6" width="1" height="1" fill="#d82117"/>
+                    <!-- white collar + name badge -->
+                    <rect x="5" y="6" width="2" height="1" fill="#ffffff"/>
+                    <rect x="4" y="7" width="1" height="1" fill="#f2c200"/>
+                    <!-- black pants -->
+                    <rect x="3" y="9" width="6" height="3" fill="#1c1c1e"/>
+                    <rect x="3" y="12" width="2" height="1" fill="#1c1c1e"/>
+                    <rect x="7" y="12" width="2" height="1" fill="#1c1c1e"/>
+                    <!-- black shoes -->
+                    <rect x="2" y="13" width="3" height="1" fill="#111111"/>
+                    <rect x="7" y="13" width="3" height="1" fill="#111111"/>
+                    <!-- raised hand for waving (hidden until clicked) -->
+                    <g class="wave-arm">
+                        <rect x="9" y="5" width="1" height="1" fill="#f6c77e"/>
+                        <rect x="10" y="4" width="1" height="1" fill="#f6c77e"/>
+                        <rect x="10" y="3" width="1" height="1" fill="#f6c77e"/>
+                    </g>
+                </svg>
+                <svg class="mario-basket" width="26" height="24" viewBox="0 0 13 12" xmlns="http://www.w3.org/2000/svg">
+                    <!-- produce poking out of the cart -->
+                    <rect x="3" y="4" width="1" height="1" fill="#7cb342"/>
+                    <rect x="4" y="3" width="1" height="2" fill="#2f9e3f"/>
+                    <rect x="6" y="4" width="1" height="1" fill="#f08a24"/>
+                    <rect x="7" y="3" width="1" height="1" fill="#f2c200"/>
+                    <rect x="9" y="3" width="1" height="1" fill="#2f9e3f"/>
+                    <rect x="9" y="4" width="1" height="1" fill="#8e44ad"/>
+                    <!-- Hy-Vee red cart -->
+                    <rect x="0" y="3" width="1" height="6" fill="#d82117"/>
+                    <rect x="0" y="3" width="3" height="1" fill="#d82117"/>
+                    <rect x="2" y="5" width="10" height="1" fill="#d82117"/>
+                    <rect x="2" y="5" width="1" height="4" fill="#d82117"/>
+                    <rect x="11" y="5" width="1" height="4" fill="#d82117"/>
+                    <rect x="2" y="9" width="10" height="1" fill="#d82117"/>
+                    <rect x="5" y="6" width="1" height="3" fill="#d82117"/>
+                    <rect x="8" y="6" width="1" height="3" fill="#d82117"/>
+                    <!-- wheels -->
+                    <rect x="3" y="10" width="2" height="2" fill="#2b2b2b"/>
+                    <rect x="9" y="10" width="2" height="2" fill="#2b2b2b"/>
+                </svg>
+            </div>
+        </div>
+        <header class="app-header">
+            <div class="brand">
+                <img class="brand-logo" src="assets/hyvee-primary-red.png" alt="Hy-Vee">
+                <span class="brand-sub">Digital Marketing</span>
+            </div>
+            <h1>UTM Generator</h1>
+            <p>Applies the correct UTM parameters for each platform and placement, then builds the tracking URL.</p>
+        </header>
+
+        <div class="form-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="platform">Platform <span class="req" aria-hidden="true">*</span></label>
+                    <select id="platform" required aria-required="true">
+                        <option value="">Select a platform...</option>
+                        <option>App Banners</option>
+                        <option>App Messaging</option>
+                        <option>Hy-Vee.com</option>
+                        <option>Hy-veedeals.com</option>
+                        <option>SMS</option>
+                        <option>QR Code</option>
+                        <option>Digital Display QR Codes</option>
+                        <option>Google My Business</option>
+                        <option>Email</option>
+                        <option>Flipp - Hosted Ads</option>
+                        <option>FlexEngage receipts</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="placement">Placement <span class="req" aria-hidden="true">*</span></label>
+                    <select id="placement" disabled required aria-required="true">
+                        <option value="">Select placement...</option>
+                    </select>
+                    <span class="hint">Choose a platform first to see its placements.</span>
+                </div>
+            </div>
+
+            <div id="campaignGroup" class="form-group" style="display: none;">
+                <label for="campaign">Campaign Value <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="campaign" placeholder="e.g. summer-savings-2026">
+                <span class="hint">This placement uses a custom campaign name. Keep it short, lowercase, and hyphenated.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content <span class="opt">(optional — for version / A-B testing)</span></label>
+                <input type="text" id="content" placeholder="e.g. variant-a">
+                <span class="hint">Use to distinguish creative versions of the same placement.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="baseUrl">Base URL <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="baseUrl" required aria-required="true" placeholder="https://www.hy-vee.com/deals">
+                <span class="hint">The destination link, with or without existing query parameters.</span>
+            </div>
+        </div>
+
+        <div class="result">
+            <div class="result-head">
+                <h3>Generated URL</h3>
+                <div class="copy-controls">
+                    <button id="copyButton" type="button" disabled title="Copy URL — or press Enter">
+                        <span class="btn-icon" aria-hidden="true">
+                            <svg class="icon icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <svg class="icon icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <span id="copyLabel">Copy URL</span>
+                    </button>
+                    <span class="copy-hint">Press <kbd>Enter</kbd></span>
+                </div>
+            </div>
+            <table class="param-table" id="paramTable"><tbody id="paramRows"></tbody></table>
+            <div id="generatedUrl" class="url-box is-empty" aria-live="polite">Fill in the required fields above to generate your tagged URL.</div>
+        </div>
+    </div>
+
+
+   <script type="text/python">
+from browser import document, window, html, bind
+
+# UTM mapping dictionary
+utm_mapping = {
+    'App Banners': {
+        'Hero Banner': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'hero'},
+        'Swimlane': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'swimlane'},
+        'Tall Card': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'tall-card'},
+        'Seasons Hero': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'seasonshero'},
+        'Inspo Tiles': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'inspo-tiles'},
+        'Secondary Banner': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'secondary-banner'},
+        'Health Hero': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'health-hero'},
+        'Image Button': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'image-button'},
+		'Article Card': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'article-card'},
+		'Tab Banner': {'source': 'homepage', 'medium': 'mobile-app', 'campaign': 'tab-banner'}
+    },
+    'App Messaging': {
+        'Message Center': {'source': 'message-center', 'medium': 'mobile-app', 'campaign': 'content'},
+        'Push Notification': {'source': 'push-notification', 'medium': 'mobile-app', 'campaign': 'content'},
+        'In-App Banner': {'source': 'in-app-banner', 'medium': 'mobile-app', 'campaign': 'content'},
+        'Modal': {'source': 'modal', 'medium': 'mobile-app', 'campaign': 'content'},
+        'Scene': {'source': 'scene', 'medium': 'mobile-app', 'campaign': 'content'}
+    },
+    'Hy-Vee.com': {
+        'Hero': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'hero'},
+        'Featured Card - Tall': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'featured-card-tall'},
+        'Leaderboard (Citrus Banner) -Top': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'leaderboard1'},
+        'Seasons Story Carousel': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'seasons-story'},
+        'Seasons Featured Card - Short': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'seasons-featured-card'},
+        'Health Story Carousel': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'health'},
+        'Leaderboard Banner - Bottom': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'leaderboard2'},
+        'Article Cards': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'article-card'},
+        'Hy-Vee Secondary': {'source': 'hyvee', 'medium': 'banner', 'campaign': 'secondary'}
+    },
+    'Hy-veedeals.com': {
+        'Hero Banner': {'source': 'hyveedeals', 'medium': 'banner', 'campaign': 'hero'},
+        'Ship to Home banner': {'source': 'hyveedeals', 'medium': 'banner', 'campaign': 'shiptohome'},
+        'Partner Brands': {'source': 'hyveedeals', 'medium': 'banner', 'campaign': 'partner'},
+        'Footer Banners': {'source': 'hyveedeals', 'medium': 'banner', 'campaign': 'footer'}
+    },
+    'SMS': {
+        'SMS Messages': {'source': 'mobile', 'medium': 'sms', 'campaign': 'content'}
+    },
+    'QR Code': {
+        'Printed QR Code': {'source': 'print', 'medium': 'qrcode', 'campaign': 'content'}
+    },
+    'Digital Display QR Codes': {
+        'Digital Displays - Entry way TVs': {'source': 'digitaldisplay', 'medium': 'qrcode', 'campaign': 'digital-display-qrcode'}
+    },
+    'Google My Business': {
+        'GMB Listing': {'source': 'google', 'medium': 'organic', 'campaign': 'gmb-listing'},
+        'GMB Post': {'source': 'google', 'medium': 'organic', 'campaign': 'gmb-post'}
+    },
+    'Email': {
+        'Savings Coupon': {'source': 'silverpopmailing', 'medium': 'email', 'campaign': 'savingscoupon'}
+    },
+    'Flipp - Hosted Ads': {
+        'Deals.com Ads': {'source': 'flipp', 'medium': 'circular', 'campaign': 'content'}
+    },
+    'FlexEngage receipts': {
+        'Marketing banners': {'source': 'flexreceipts', 'medium': 'email', 'campaign': 'HVI-banner'},
+        'CitrusAds spots': {'source': 'flexreceipts', 'medium': 'email', 'campaign': 'citrus-ads'}
+    }
+}
+
+PLACEHOLDER_TEXT = 'Fill in the required fields above to generate your tagged URL.'
+
+
+def set_url_state(state, text):
+    """Swap the visual state of the result box (is-empty / is-error / is-filled)."""
+    box = document['generatedUrl']
+    for cls in ('is-empty', 'is-error', 'is-filled'):
+        box.classList.remove(cls)
+    box.classList.add(state)
+    box.text = text
+
+
+def clear_params():
+    document['paramRows'].clear()
+    document['paramTable'].classList.remove('has-rows')
+
+
+def render_params(pairs):
+    """Show a read-only breakdown of the UTM parameters being applied."""
+    rows = document['paramRows']
+    rows.clear()
+    for key, value in pairs:
+        tr = html.TR()
+        tr <= html.TH(key, scope='row')
+        tr <= html.TD(value)
+        rows <= tr
+    document['paramTable'].classList.add('has-rows')
+
+
+def reset_copy_button():
+    btn = document['copyButton']
+    btn.disabled = True
+    btn.classList.remove('copied')
+    document['copyLabel'].text = 'Copy URL'
+
+
+def reset_result():
+    """Return the result panel to its neutral, empty state."""
+    set_url_state('is-empty', PLACEHOLDER_TEXT)
+    clear_params()
+    reset_copy_button()
+
+
+@bind("#platform", "change")
+def update_placements(evt):
+    platform = document['platform'].value
+    placement_select = document['placement']
+    campaign_group = document['campaignGroup']
+
+    # Clear current options
+    placement_select.clear()
+    placement_select.appendChild(window.Option.new('Select placement...', ''))
+
+    if platform:
+        placement_select.disabled = False
+        # Add new options based on selected platform
+        for placement in utm_mapping[platform].keys():
+            placement_select.appendChild(window.Option.new(placement, placement))
+    else:
+        placement_select.disabled = True
+        campaign_group.style.display = 'none'  # Hide campaign input on platform reset
+
+    # Reset the result panel when platform changes
+    reset_result()
+
+
+@bind("#placement", "change")
+def update_campaign_field(evt):
+    platform = document['platform'].value
+    placement = document['placement'].value
+    campaign_group = document['campaignGroup']
+
+    if platform and placement:
+        if utm_mapping[platform][placement]['campaign'] == 'content':
+            campaign_group.style.display = 'block'
+        else:
+            campaign_group.style.display = 'none'
+
+        # Trigger URL regeneration when placement changes
+        generate_utm()
+    else:
+        campaign_group.style.display = 'none'
+
+
+@bind("#baseUrl", "input")
+def generate_utm_on_base_url(evt):
+    generate_utm()
+
+@bind("#content", "input")
+def generate_utm_on_content(evt):
+    generate_utm()
+
+@bind("#campaign", "input")
+def generate_utm_on_campaign(evt):
+    generate_utm()
+
+def is_valid_base_url(url):
+    # Must be a secure URL with a real domain (contains a dot, no spaces)
+    if not url.startswith('https://'):
+        return False
+    host = url[8:]
+    for sep in ('/', '?', '#'):
+        idx = host.find(sep)
+        if idx != -1:
+            host = host[:idx]
+    if not host or ' ' in host:
+        return False
+    return '.' in host and not host.startswith('.') and not host.endswith('.')
+
+
+def validate_base_url_field():
+    field = document['baseUrl']
+    value = field.value
+    if value and not is_valid_base_url(value):
+        field.classList.add('is-invalid')
+    else:
+        field.classList.remove('is-invalid')
+
+
+def generate_utm():
+    platform = document['platform'].value
+    placement = document['placement'].value
+    base_url = document['baseUrl'].value
+    content = document['content'].value
+    campaign = document['campaign'].value
+
+    validate_base_url_field()
+
+    if not platform or not placement or not base_url:
+        reset_result()
+        return
+
+    if not is_valid_base_url(base_url):
+        set_url_state('is-error', 'Enter a valid Base URL starting with https:// (e.g. https://www.hy-vee.com/deals).')
+        clear_params()
+        reset_copy_button()
+        return
+
+    utm_params = utm_mapping[platform][placement]
+
+    # Determine if campaign value is required
+    campaign_required = utm_params['campaign'] == 'content'
+
+    # Check if we need campaign value
+    if campaign_required and not campaign:
+        set_url_state('is-error', 'Enter a campaign value above to finish the URL.')
+        clear_params()
+        reset_copy_button()
+        return
+
+    # Determine if base URL already has query parameters
+    separator = '&' if '?' in base_url else '?'
+
+    # Build UTM parameters (raw values, no encoding — special characters like = and & are kept literal)
+    utm_string = f"{separator}utm_source={utm_params['source']}&utm_medium={utm_params['medium']}"
+
+    # Add campaign parameter
+    campaign_value = campaign if campaign_required else utm_params['campaign']
+    utm_string += f"&utm_campaign={campaign_value}"
+
+    # Add content parameter
+    if content:
+        utm_string += f"&utm_content={content}"
+
+    # Combine base URL with UTM parameters
+    final_url = base_url + utm_string
+
+    # Display result
+    set_url_state('is-filled', final_url)
+
+    # Show a read-only breakdown of what was applied (mirrors the URL above)
+    params = [
+        ('utm_source', utm_params['source']),
+        ('utm_medium', utm_params['medium']),
+        ('utm_campaign', campaign_value),
+    ]
+    if content:
+        params.append(('utm_content', content))
+    render_params(params)
+
+    # Enable copying now that a valid URL exists
+    btn = document['copyButton']
+    btn.disabled = False
+    btn.classList.remove('copied')
+    document['copyLabel'].text = 'Copy URL'
+
+
+def do_copy():
+    btn = document['copyButton']
+    if btn.disabled:
+        return
+    url = document['generatedUrl'].text
+    if not url:
+        return
+    # Copy the URL exactly as shown, with all special characters intact
+    window.navigator.clipboard.writeText(url)
+    # Confirmation feedback (checkmark morph + label swap)
+    btn.classList.add('copied')
+    document['copyLabel'].text = 'Copied!'
+    window.setTimeout(restore_copy_label, 1600)
+
+
+@bind("#copyButton", "click")
+def copy_to_clipboard(evt):
+    do_copy()
+
+
+@bind(document, "keydown")
+def copy_on_enter(evt):
+    # Press Enter anywhere to copy the finished URL — except while a
+    # dropdown or the button itself is focused (Enter has its own meaning there).
+    if evt.key != 'Enter':
+        return
+    if document['copyButton'].disabled:
+        return
+    active = document.activeElement
+    tag = (active.tagName if active else '') or ''
+    if tag.upper() in ('SELECT', 'BUTTON'):
+        return
+    evt.preventDefault()
+    do_copy()
+
+
+def restore_copy_label():
+    btn = document['copyButton']
+    if not btn.disabled:
+        btn.classList.remove('copied')
+        document['copyLabel'].text = 'Copy URL'
+
+
+
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.4/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.4/brython_stdlib.js"></script>
+    <script type="text/javascript">
+        window.onload = brython
+    </script>
+    <script type="text/javascript">
+    // Fun department easter eggs (independent of the UTM logic)
+    (function () {
+        var audioCtx;
+        // Original celebratory chime (not the Hy-Vee jingle, which is copyrighted)
+        function playChime() {
+            try {
+                audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+                var now = audioCtx.currentTime;
+                var notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+                notes.forEach(function (f, i) {
+                    var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+                    o.type = 'triangle';
+                    o.frequency.value = f;
+                    var t = now + i * 0.12;
+                    g.gain.setValueAtTime(0.0001, t);
+                    g.gain.exponentialRampToValueAtTime(0.22, t + 0.02);
+                    g.gain.exponentialRampToValueAtTime(0.0008, t + 0.34);
+                    o.connect(g); g.connect(audioCtx.destination);
+                    o.start(t); o.stop(t + 0.36);
+                });
+            } catch (e) { /* audio not available — no problem */ }
+        }
+
+        // Real Hy-Vee jingle (Hy-Vee-owned asset); falls back to the chime if it can't load
+        var jingle = new Audio('assets/vintage-jingle.mp3');
+        jingle.preload = 'auto';
+        jingle.volume = 0.6;
+        function playJingle() {
+            try {
+                jingle.currentTime = 0;
+                var p = jingle.play();
+                if (p && p.catch) { p.catch(function () { playChime(); }); }
+            } catch (e) { playChime(); }
+        }
+
+        function triggerCelebration() {
+            var scene = document.getElementById('marioScene');
+            if (!scene) return;
+            scene.classList.remove('is-celebrating');
+            void scene.offsetWidth; // restart the animation
+            scene.classList.add('is-celebrating');
+            clearTimeout(scene._end);
+            scene._end = setTimeout(function () { scene.classList.remove('is-celebrating'); }, 4300);
+        }
+
+        // Big all-caps tagline words waterfalling down the whole screen
+        var SMILE_WORDS = ['A', 'HELPFUL', 'SMILE', 'IN', 'EVERY', 'AISLE'];
+        function smileWaterfall() {
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var overlay = document.createElement('div');
+            overlay.className = 'smile-splash';
+            overlay.setAttribute('aria-hidden', 'true');
+            for (var i = 0; i < 30; i++) {
+                var w = document.createElement('span');
+                w.className = 'smile-word';
+                w.textContent = SMILE_WORDS[i % SMILE_WORDS.length];
+                w.style.left = Math.round(Math.random() * 92) + '%';
+                w.style.fontSize = (30 + Math.round(Math.random() * 44)) + 'px';
+                w.style.animationDuration = (1.8 + Math.random() * 1.8).toFixed(2) + 's';
+                w.style.animationDelay = (Math.random() * 1.4).toFixed(2) + 's';
+                if (i % 2) { w.style.color = '#1d1d1f'; }
+                overlay.appendChild(w);
+            }
+            document.body.appendChild(overlay);
+            setTimeout(function () { overlay.remove(); }, 4600);
+        }
+
+        // #1 — tap the Hy-Vee logo 3x: "A Helpful Smile in Every Aisle" + chime + lap
+        var taps = 0, tapTimer;
+        var logo = document.querySelector('.brand-logo');
+        if (logo) {
+            logo.addEventListener('click', function () {
+                taps++;
+                clearTimeout(tapTimer);
+                tapTimer = setTimeout(function () { taps = 0; }, 1200);
+                if (taps >= 3) {
+                    taps = 0;
+                    smileWaterfall();
+                    playJingle();
+                    triggerCelebration();
+                }
+            });
+        }
+
+        // #2 — Konami code: a whole parade of carts
+        var seq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        var ki = 0;
+        document.addEventListener('keydown', function (e) {
+            var k = (e.key && e.key.length === 1) ? e.key.toLowerCase() : e.key;
+            if (k === seq[ki]) {
+                ki++;
+                if (ki === seq.length) { ki = 0; parade(); }
+            } else {
+                ki = (k === seq[0]) ? 1 : 0;
+            }
+        });
+        function parade() {
+            var scene = document.getElementById('marioScene');
+            if (!scene) return;
+            scene.classList.add('is-celebrating');
+            var base = scene.querySelector('.mario-cart');
+            base.style.animationDelay = '0s';
+            var clones = [], delays = [0.8, 1.6, 2.4];
+            delays.forEach(function (d) {
+                var c = base.cloneNode(true);
+                c.style.animationDelay = d + 's';
+                scene.appendChild(c);
+                clones.push(c);
+            });
+            playJingle();
+            clearTimeout(scene._end);
+            setTimeout(function () {
+                clones.forEach(function (c) { c.remove(); });
+                base.style.animationDelay = '';
+                scene.classList.remove('is-celebrating');
+            }, (2.4 + 3.8 + 0.4) * 1000);
+        }
+
+        // #5 — click the employee mid-lap: he pauses and waves
+        var scene = document.getElementById('marioScene');
+        if (scene) {
+            scene.addEventListener('click', function (e) {
+                var grp = e.target.closest && e.target.closest('.mario-cart');
+                if (!grp) return;
+                var guy = grp.querySelector('.mario-guy');
+                if (!guy) return;
+                grp.style.animationPlayState = 'paused';
+                guy.classList.add('waving');
+                setTimeout(function () {
+                    guy.classList.remove('waving');
+                    grp.style.animationPlayState = 'running';
+                }, 1150);
+            });
+        }
+
+        // Hidden: double-click the "Digital Marketing" subtitle for one quiet lap (no sound)
+        var sub = document.querySelector('.brand-sub');
+        if (sub) {
+            sub.style.userSelect = 'none';
+            sub.addEventListener('dblclick', function () { triggerCelebration(); });
+        }
+    })();
+    </script>
+</body>
+</html>
