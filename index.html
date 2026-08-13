@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex">
     <title>Hy-Vee UTM Generator</title>
     <link rel="icon" type="image/png" href="assets/hyvee-h-red.png">
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
     <div class="container">
@@ -137,6 +137,7 @@
             </div>
             <table class="param-table" id="paramTable"><tbody id="paramRows"></tbody></table>
             <div id="generatedUrl" class="url-box is-empty" aria-live="polite">Fill in the required fields above to generate your tagged URL.</div>
+            <div class="usage-count" id="usageCount"></div>
         </div>
     </div>
 
@@ -452,14 +453,32 @@ def restore_copy_label():
     <script type="text/javascript">
     // Fun department easter eggs (independent of the UTM logic)
     (function () {
-        // Analytics: count each genuinely new URL copied (GoatCounter custom event)
+        // Live usage count, sourced from GoatCounter's public counter endpoint
+        var COUNTER_URL = 'https://mcountry321.goatcounter.com/counter/copy-url.json';
+        var usageEl = document.getElementById('usageCount');
+        var usageN = null;
+        function renderUsage() {
+            if (usageN === null || !usageEl) return;
+            var noun = usageN === 1 ? 'URL' : 'URLs';
+            usageEl.textContent = usageN.toLocaleString() + ' tracking ' + noun + ' generated with this tool';
+        }
+        function loadUsage() {
+            fetch(COUNTER_URL).then(function (r) { return r.json(); }).then(function (d) {
+                usageN = parseInt(String(d.count || '0').replace(/[^0-9]/g, ''), 10) || 0;
+                renderUsage();
+            }).catch(function () { /* analytics blocked — leave the line hidden */ });
+        }
+        loadUsage();
+
+        // Record each genuinely new URL copied, and bump the visible count
         var lastTracked = '';
         window.trackCopy = function (url) {
             if (url && url === lastTracked) return;
             lastTracked = url;
             if (window.goatcounter && window.goatcounter.count) {
-                window.goatcounter.count({ path: 'copy-url', title: 'URL copied', event: true });
+                window.goatcounter.count({ path: 'copy-url', title: 'URL generated' });
             }
+            if (usageN !== null) { usageN += 1; renderUsage(); }
         };
 
         var audioCtx;
