@@ -407,6 +407,11 @@ def do_copy():
     btn.classList.add('copied')
     document['copyLabel'].text = 'Copied!'
     window.setTimeout(restore_copy_label, 1600)
+    # Analytics: record that a URL was copied
+    try:
+        window.trackCopy(url)
+    except:
+        pass
 
 
 @bind("#copyButton", "click")
@@ -447,6 +452,16 @@ def restore_copy_label():
     <script type="text/javascript">
     // Fun department easter eggs (independent of the UTM logic)
     (function () {
+        // Analytics: count each genuinely new URL copied (GoatCounter custom event)
+        var lastTracked = '';
+        window.trackCopy = function (url) {
+            if (url && url === lastTracked) return;
+            lastTracked = url;
+            if (window.goatcounter && window.goatcounter.count) {
+                window.goatcounter.count({ path: 'copy-url', title: 'URL copied', event: true });
+            }
+        };
+
         var audioCtx;
         // Original celebratory chime (not the Hy-Vee jingle, which is copyrighted)
         function playChime() {
@@ -589,5 +604,8 @@ def restore_copy_label():
         }
     })();
     </script>
+    <!-- GoatCounter analytics — privacy-friendly, no cookies -->
+    <script data-goatcounter="https://mcountry321.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
