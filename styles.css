@@ -70,7 +70,7 @@ body {
 }
 
 .mario-scene.is-celebrating .mario-cart {
-    animation: mario-cross 3.8s linear forwards;
+    animation: mario-cross 7s linear forwards;
 }
 
 .mario-cart svg {

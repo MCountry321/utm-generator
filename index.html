@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex">
     <title>Hy-Vee UTM Generator</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1">
-    <link rel="stylesheet" href="styles.css?v=11">
+    <link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
     <div class="container">
@@ -503,7 +503,7 @@ def restore_copy_label():
             void scene.offsetWidth; // restart the animation
             scene.classList.add('is-celebrating');
             clearTimeout(scene._end);
-            scene._end = setTimeout(function () { scene.classList.remove('is-celebrating'); }, 4300);
+            scene._end = setTimeout(function () { scene.classList.remove('is-celebrating'); }, 7500);
         }
 
         // Big all-caps tagline words waterfalling down the whole screen
@@ -576,7 +576,7 @@ def restore_copy_label():
                 clones.forEach(function (c) { c.remove(); });
                 base.style.animationDelay = '';
                 scene.classList.remove('is-celebrating');
-            }, (2.4 + 3.8 + 0.4) * 1000);
+            }, (2.4 + 7 + 0.4) * 1000);
         }
 
         // #5 — click the employee mid-lap: he pauses and waves
